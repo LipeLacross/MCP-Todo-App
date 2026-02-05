@@ -1,6 +1,6 @@
 import { DataSource } from "typeorm";
-import { User } from "./entity/User";
-import { Task } from "./entity/Task";
+import { User } from "./entity/User.js"; // Adicionando a extensão .js
+import { Task } from "./entity/Task.js"; // Adicionando a extensão .js
 
 export const AppDataSource = new DataSource({
   type: "sqlite",

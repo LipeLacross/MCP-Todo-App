@@ -1,5 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from "typeorm";
-import { User } from "./User";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, type Relation } from "typeorm";
+import type { User } from "./User.js";
 
 @Entity("tasks")
 export class Task {
@@ -21,11 +21,10 @@ export class Task {
   @Column({ type: "datetime", nullable: true })
   updatedAt!: Date;
 
-  @ManyToOne(() => User, (user) => user.tasks, { onDelete: "CASCADE" })
+  @ManyToOne("User", "tasks", { onDelete: "CASCADE" })
   @JoinColumn({ name: "userId" })
-  user!: User;
+  user!: Relation<User>;
 
   @Column("integer")
   userId!: number;
 }
-

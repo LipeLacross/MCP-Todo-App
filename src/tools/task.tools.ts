@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { MCPServer, text } from "mcp-use/server";
-import { verifyToken } from "../security/token";
-import { TaskRepository } from "../repos/task.repo";
+import { verifyToken } from "../security/token.js"; // Adicionando a extensão .js
+import { TaskRepository } from "../repos/task.repo.js";
 
 export function registerTaskTools(server: MCPServer): void {
   const taskRepository = new TaskRepository();

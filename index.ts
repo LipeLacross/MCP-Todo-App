@@ -1,8 +1,8 @@
 import "reflect-metadata"; // Deve ser a primeira linha
 import { MCPServer, object } from "mcp-use/server";
-import { AppDataSource } from "./src/database/connection";
-import { registerAuthTools } from "./src/tools/auth.tools";
-import { registerTaskTools } from "./src/tools/task.tools";
+import { AppDataSource } from "./src/database/connection.js"; // Adicionando a extensão .js
+import { registerAuthTools } from "./src/tools/auth.tools.js"; // Adicionando a extensão .js
+import { registerTaskTools } from "./src/tools/task.tools.js"; // Adicionando a extensão .js
 
 async function startServer() {
   // Initialize TypeORM connection
@@ -47,6 +47,15 @@ async function startServer() {
   /**
    * Add here your standard MCP tools, resources and prompts
    */
+
+  // Root endpoint - health check
+  server.get("/", (c) => {
+    return c.json({
+      message: "Servidor MCP está funcionando!",
+      status: "online",
+      version: "1.0.0"
+    });
+  });
 
   // Fruits data for the API
   const fruits = [

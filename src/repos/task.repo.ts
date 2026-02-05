@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
-import { AppDataSource } from "../database/connection";
-import { Task } from "../database/entity/Task";
+import { AppDataSource } from "../database/connection.js";
+import { Task } from "../database/entity/Task.js";
 
 export class TaskRepository {
   private repository: Repository<Task>;

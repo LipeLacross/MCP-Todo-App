@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { MCPServer, text } from "mcp-use/server";
-import { hashPassword, verifyPassword } from "../security/password";
-import { signToken } from "../security/token";
-import { UserRepository } from "../repos/user.repo";
+import { hashPassword, verifyPassword } from "../security/password.js";
+import { signToken } from "../security/token.js";
+import { UserRepository } from "../repos/user.repo.js";
 
 type AuthCredentials = {
   email: string;
