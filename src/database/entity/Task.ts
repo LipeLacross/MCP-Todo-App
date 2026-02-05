@@ -9,10 +9,10 @@ export class Task {
   @Column("varchar")
   title!: string;
 
-  @Column({ nullable: true })
+  @Column("text", { nullable: true }) // Defina o tipo como "text"
   description!: string;
 
-  @Column({ default: false })
+  @Column("boolean",{ default: false })
   completed!: boolean;
 
   @Column({ type: "datetime", default: () => "CURRENT_TIMESTAMP" })
@@ -25,6 +25,7 @@ export class Task {
   @JoinColumn({ name: "userId" })
   user!: User;
 
-  @Column()
+  @Column("integer")
   userId!: number;
 }
+

@@ -6,10 +6,10 @@ export class User {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({ unique: true })
+  @Column({ type: "varchar", unique: true })
   email!: string;
 
-  @Column()
+  @Column("varchar")
   passwordHash!: string;
 
   @OneToMany(() => Task, (task) => task.user)
