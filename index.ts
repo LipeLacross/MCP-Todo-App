@@ -1,10 +1,13 @@
 import { MCPServer, object } from "mcp-use/server";
+import prisma from "./src/db/prismaClient.js";
+import { registerAuthTools } from "./src/tools/auth.tools.js";
+import { registerTaskTools } from "./src/tools/task.tools.js";
 
 const server = new MCPServer({
   name: "my-mcp-project",
   title: "my-mcp-project", // display name
   version: "1.0.0",
-  description: "MCP server with OpenAI Apps SDK integration",
+  description: "MCP server with OpenAI Apps SDK integration and Task Management",
   baseUrl: process.env.MCP_URL || "http://localhost:3000", // Full base URL (e.g., https://myserver.com)
   favicon: "favicon.ico",
   websiteUrl: "https://mcp-use.com", // Can be customized later
@@ -16,6 +19,10 @@ const server = new MCPServer({
     },
   ],
 });
+
+// Register authentication and task management tools
+registerAuthTools(server, prisma);
+registerTaskTools(server, prisma);
 
 /**
  * AUTOMATIC UI WIDGET REGISTRATION

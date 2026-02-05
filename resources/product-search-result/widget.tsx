@@ -4,11 +4,11 @@ import { McpUseProvider, useWidget, type WidgetMetadata } from "mcp-use/react";
 import React from "react";
 import { Link } from "react-router";
 import "../styles.css";
-import { Accordion } from "./components/Accordion";
-import { Carousel } from "./components/Carousel";
-import { queryClient } from "./constants";
-import type { ProductSearchResultProps } from "./types";
-import { propSchema } from "./types";
+import { Accordion } from "./components/Accordion.js";
+import { Carousel } from "./components/Carousel.js";
+import { queryClient } from "./constants.js";
+import type { ProductSearchResultProps } from "./types.js";
+import { propSchema } from "./types.js";
 
 export const widgetMetadata: WidgetMetadata = {
   description:

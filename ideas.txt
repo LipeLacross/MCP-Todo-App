@@ -1,0 +1,178 @@
+### **Esquema do Projeto**: **Sistema de Gerenciamento de Tarefas (To-Do)** com **MCP-Use** e **TypeORM + SQLite**
+
+---
+
+### **1. Funcionalidades**
+
+#### **1.1. Autenticação de Usuário**
+
+* **Registro** de usuários (criação de novos usuários com email e senha).
+* **Login** de usuários (autenticação via email e senha, retornando um **token JWT**).
+* **Verificação de Token JWT** para proteger rotas e garantir que somente usuários autenticados possam acessar suas tarefas.
+
+#### **1.2. Gerenciamento de Tarefas**
+
+* **Criar tarefas** (usuário pode criar uma nova tarefa com título e descrição).
+* **Listar tarefas** (usuário pode visualizar todas as suas tarefas).
+* **Atualizar tarefas** (usuário pode marcar como concluída ou editar uma tarefa).
+* **Excluir tarefas** (usuário pode excluir tarefas).
+
+---
+
+### **2. Arquitetura do Projeto**
+
+#### **2.1. Backend**
+
+* **Node.js** + **TypeScript**: O backend será desenvolvido utilizando **Node.js** e **TypeScript**, garantindo tipagem forte e melhor manutenção do código.
+* **TypeORM**: Usado como ORM (Object Relational Mapping) para interagir com o banco de dados **SQLite**, simplificando o acesso aos dados.
+* **MCP-Use**: Biblioteca para construção de **servidores e clientes MCP**, permitindo a criação de APIs e exposição de funcionalidades de maneira organizada.
+
+#### **2.2. Banco de Dados**
+
+* **SQLite**: Banco de dados leve, utilizado para armazenar dados de usuários e tarefas. O banco será configurado utilizando o TypeORM, e o arquivo SQLite será armazenado no diretório do projeto.
+* **TypeORM**: ORM para gerenciar o banco de dados e executar consultas SQL de maneira eficiente, baseado nas entidades definidas.
+
+#### **2.3. Autenticação**
+
+* **JWT (JSON Web Token)**: Utilizado para autenticar e autorizar usuários a acessarem suas tarefas. O token JWT será gerado durante o login e armazenado no cliente (por exemplo, localStorage ou cookies) para autenticação subsequente.
+
+#### **2.4. API**
+
+* **MCP-Use**: Fornece ferramentas (APIs) para registrar usuários, fazer login e gerenciar tarefas. A API estará disponível para que o frontend (se houver) ou outros sistemas possam interagir com ela.
+
+---
+
+### **3. Estrutura de Pastas**
+
+#### **3.1. Raiz do Projeto**
+
+* **`README.md`**: Documentação do projeto, explicando como rodar e utilizar o sistema.
+* **`package.json`**: Contém dependências e scripts do projeto.
+* **`tsconfig.json`**: Configuração do TypeScript.
+* **`.env`**: Variáveis de ambiente, como a URL do banco de dados.
+* **`.gitignore`**: Arquivos e diretórios que não devem ser versionados pelo Git (ex: node_modules, dist).
+
+#### **3.2. TypeORM**
+
+* **`src/entity/User.ts`**: Define a entidade do usuário, incluindo as colunas `email`, `password` e suas relações.
+* **`src/entity/Task.ts`**: Define a entidade da tarefa, incluindo colunas como `title`, `description`, `status`, etc.
+* **`src/database/connection.ts`**: Configuração da conexão com o banco de dados SQLite usando o TypeORM.
+
+#### **3.3. Código do Servidor (Backend)**
+
+* **`src/server.ts`**: Inicializa o servidor MCP-Use, registra as ferramentas (ex: autenticação, tarefas) e as expõe para serem consumidas.
+* **`src/config.ts`**: Configurações do projeto, como a URL do banco de dados e outras variáveis de configuração.
+* **`src/database/connection.ts`**: Configuração do TypeORM para conectar ao banco de dados SQLite.
+
+#### **3.4. Lógica de Segurança (Autenticação)**
+
+* **`src/security/`**:
+
+  * **`password.ts`**: Funções para criptografar senhas e verificar senhas fornecidas pelo usuário.
+  * **`token.ts`**: Funções para gerar e verificar tokens JWT.
+
+#### **3.5. Repositórios (Acesso ao Banco de Dados)**
+
+* **`src/repos/`**:
+
+  * **`user.repo.ts`**: Contém funções para manipular usuários no banco de dados (criação, consulta, etc.).
+  * **`task.repo.ts`**: Contém funções para manipular tarefas no banco de dados (criação, listagem, atualização, etc.).
+
+#### **3.6. Ferramentas (Exposição de Funcionalidades via API)**
+
+* **`src/tools/`**:
+
+  * **`auth.tools.ts`**: Ferramentas para autenticação de usuários (registro, login, verificação de token).
+  * **`task.tools.ts`**: Ferramentas para gerenciamento de tarefas (criação, listagem, atualização, exclusão).
+
+#### **3.7. Código Compilado**
+
+* **`dist/`**: Diretório gerado após a compilação do TypeScript. Contém os arquivos `.js` que serão executados pelo Node.js.
+
+---
+
+### **4. Fluxo de Funcionamento**
+
+1. **Usuário Registra-se**:
+
+   * O usuário envia um **email** e uma **senha** para o servidor.
+   * O servidor armazena o **email** e a **senha criptografada** no banco de dados e gera um **token JWT** para autenticação futura.
+
+2. **Usuário Faz Login**:
+
+   * O usuário envia **email** e **senha**.
+   * O servidor verifica se os dados estão corretos, e se sim, gera um novo **token JWT**.
+
+3. **Usuário Gerencia Tarefas**:
+
+   * Após o login, o usuário pode enviar o **token JWT** para autenticar suas requisições e gerenciar suas **tarefas**.
+   * O servidor verifica o **token** antes de permitir o acesso às tarefas do usuário.
+
+4. **TypeORM Interage com o Banco de Dados**:
+
+   * O **TypeORM** é usado para interagir com o banco de dados SQLite, realizando operações CRUD em **users** e **tasks**.
+
+---
+
+### **5. Fluxo das Ferramentas MCP-Use**:
+
+* **`auth_register`**: Função para registrar um novo usuário.
+* **`auth_login`**: Função para fazer login de um usuário e retornar o **JWT**.
+* **`task_create`**: Função para criar uma nova tarefa para o usuário autenticado.
+* **`task_list`**: Função para listar todas as tarefas do usuário autenticado.
+* **`task_update`**: Função para atualizar uma tarefa existente.
+* **`task_delete`**: Função para excluir uma tarefa.
+
+---
+
+### **6. Clean Code**
+
+No desenvolvimento do projeto, alguns princípios de **Clean Code** serão seguidos para garantir um código mais legível, manutenível e escalável:
+
+1. **Nomes Significativos**:
+
+   * Funções e variáveis devem ter nomes claros e descritivos. Por exemplo, ao invés de `taskFunc`, use `createTask` ou `updateTask`.
+   * Classes, métodos e variáveis devem seguir um padrão de nomenclatura consistente e autoexplicativo.
+
+2. **Funções Pequenas**:
+
+   * Funções devem ser pequenas e focadas em uma única responsabilidade. Cada função deve realizar uma única tarefa de forma clara e objetiva.
+
+3. **Evitar Duplicação de Código**:
+
+   * Código duplicado deve ser evitado. Sempre que possível, extraia trechos de código repetidos em funções reutilizáveis.
+
+4. **Comentários Quando Necessário**:
+
+   * O código deve ser autoexplicativo. Comente apenas quando for necessário, como em blocos complexos ou soluções não óbvias.
+
+5. **Tratamento de Erros e Exceções**:
+
+   * Aplique tratamento adequado de erros. Use try/catch para capturar exceções e forneça mensagens de erro claras.
+
+6. **Estrutura e Organização do Código**:
+
+   * O código deve ser organizado de forma clara e modular. Cada parte do sistema (por exemplo, autenticação, gerenciamento de tarefas, etc.) deve estar separada em arquivos e diretórios apropriados.
+
+7. **Boas Práticas de Testes**:
+
+   * Adote a prática de escrever testes automatizados para garantir a qualidade e confiabilidade do código. Isso ajuda a prevenir regressões e melhora a confiança no sistema.
+
+8. **Uso Adequado de Dependências**:
+
+   * Utilize bibliotecas e frameworks quando necessário, mas evite adicionar dependências desnecessárias que aumentam a complexidade do projeto sem benefícios claros.
+
+---
+
+### **Resumo do Esquema**:
+
+* **Frontend (se necessário)**: Comunicação com o **servidor MCP** via **MCP-Use** (por meio de chamadas API) para registro/login de usuários e manipulação de tarefas.
+* **Backend**:
+
+  * Utiliza **Node.js** e **TypeScript**.
+  * **TypeORM** para interagir com o banco de dados **SQLite**.
+  * **MCP-Use** para expor APIs de autenticação e gerenciamento de tarefas.
+* **Banco de Dados**: Utiliza **SQLite** com **TypeORM** para persistir **usuários** e **tarefas**.
+* **Clean Code**: Práticas para garantir um código claro, legível e fácil de manter.
+
+
