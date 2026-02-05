@@ -4,17 +4,17 @@ import { Task } from "./Task";
 @Entity("users")
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column({ unique: true })
-  email: string;
+  email!: string;
 
   @Column()
-  passwordHash: string;
+  passwordHash!: string;
 
   @OneToMany(() => Task, (task) => task.user)
-  tasks: Task[];
+  tasks!: Task[];
 
   @Column({ type: "datetime", default: () => "CURRENT_TIMESTAMP" })
-  createdAt: Date;
+  createdAt!: Date;
 }

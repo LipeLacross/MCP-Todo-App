@@ -4,27 +4,27 @@ import { User } from "./User";
 @Entity("tasks")
 export class Task {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column()
-  title: string;
+  title!: string;
 
   @Column({ nullable: true })
-  description: string;
+  description!: string;
 
   @Column({ default: false })
-  completed: boolean;
+  completed!: boolean;
 
   @Column({ type: "datetime", default: () => "CURRENT_TIMESTAMP" })
-  createdAt: Date;
+  createdAt!: Date;
 
   @Column({ type: "datetime", nullable: true })
-  updatedAt: Date;
+  updatedAt!: Date;
 
   @ManyToOne(() => User, (user) => user.tasks, { onDelete: "CASCADE" })
   @JoinColumn({ name: "userId" })
-  user: User;
+  user!: User;
 
   @Column()
-  userId: number;
+  userId!: number;
 }
