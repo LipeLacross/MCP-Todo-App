@@ -1,3 +1,4 @@
+import "reflect-metadata"; // Deve ser a primeira linha
 import { MCPServer, object } from "mcp-use/server";
 import { AppDataSource } from "./src/database/connection";
 import { registerAuthTools } from "./src/tools/auth.tools";
